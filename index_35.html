@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADDFINS — Gaming Growth Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #050513;
+  --purple-deep: #241564;
+  --violet: #503599;
+  --violet-bright: #7B4FD4;
+  --peach: #DF9F76;
+  --lavender: #976A9D;
+  --rose: #C8A8BC;
+  --mauve: #583A54;
+  --white: #F0EBF8;
+  --glass: rgba(80,53,153,0.13);
+  --glass-border: rgba(200,168,188,0.12);
+  --glow-v: rgba(80,53,153,0.5);
+  --glow-p: rgba(223,159,118,0.38);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Sora', sans-serif; line-height: 1.13; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--mauve); border-radius: 3px; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 22px 5%; display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(24px) saturate(1.4);
+  background: rgba(5,5,19,0.55); border-bottom: 1px solid rgba(200,168,188,0.07);
+  transition: padding .4s, background .4s;
+}
+nav.scrolled { padding: 14px 5%; background: rgba(5,5,19,0.9); }
+.nav-logo { font-family: 'Sora',sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -.04em; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-wm { background: linear-gradient(125deg, var(--white), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo-icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+.nav-links { display: flex; align-items: center; gap: 34px; list-style: none; }
+.nav-links a { color: rgba(200,168,188,.7); text-decoration: none; font-size: .9rem; font-weight: 400; transition: color .2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--peach); transform: scaleX(0); transition: transform .25s; transform-origin: left; }
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-actions { display: flex; gap: 10px; align-items: center; }
+
+.btn-ghost { color: var(--white); background: transparent; border: 1px solid rgba(200,168,188,.18); padding: 9px 20px; border-radius: 100px; font-family: 'Sora',sans-serif; font-size: .86rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: border-color .25s, background .25s, transform .2s; }
+.btn-ghost:hover { border-color: var(--lavender); background: var(--glass); transform: translateY(-1px); }
+
+.btn-primary { background: linear-gradient(135deg, var(--violet), var(--violet-bright)); color: white; border: none; padding: 10px 24px; border-radius: 100px; font-family: 'Sora',sans-serif; font-size: .86rem; font-weight: 600; cursor: pointer; text-decoration: none; box-shadow: 0 0 24px var(--glow-v), inset 0 1px 0 rgba(255,255,255,.12); transition: box-shadow .3s, transform .2s; display: inline-block; }
+.btn-primary:hover { box-shadow: 0 0 44px var(--glow-v); transform: translateY(-2px) scale(1.02); }
+
+.btn-hero { background: linear-gradient(135deg, var(--violet), var(--violet-bright)); color: white; border: none; padding: 18px 40px; border-radius: 100px; font-family: 'Sora',sans-serif; font-size: 1.05rem; font-weight: 700; cursor: pointer; text-decoration: none; box-shadow: 0 0 50px var(--glow-v), 0 8px 40px rgba(80,53,153,.4), inset 0 1px 0 rgba(255,255,255,.15); transition: all .35s cubic-bezier(.34,1.56,.64,1); display: inline-flex; align-items: center; gap: 10px; letter-spacing: -.02em; position: relative; overflow: hidden; }
+.btn-hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,.08), transparent); opacity: 0; transition: opacity .25s; }
+.btn-hero:hover { box-shadow: 0 0 80px var(--glow-v), 0 12px 50px rgba(80,53,153,.5); transform: translateY(-3px) scale(1.03); }
+.btn-hero:hover::before { opacity: 1; }
+.btn-hero svg { width: 18px; height: 18px; transition: transform .25s; }
+.btn-hero:hover svg { transform: translateX(4px); }
+
+/* HERO */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 130px 5% 90px; position: relative; overflow: hidden; }
+
+/* layered static gradient — the primary depth layer */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 62% 62% at 72% 38%, rgba(80,53,153,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 42% 52% at 18% 72%, rgba(223,159,118,0.16) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 75%, rgba(88,58,84,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 80% at 50% 50%, rgba(36,21,100,0.48) 0%, transparent 70%),
+    #050513;
+}
+
+/* blobs animate on top of the static gradients — reduced slightly so gradients stay primary */
+.hero-blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 1; }
+.blob-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(80,53,153,.28) 0%, transparent 70%); top: -120px; right: -180px; animation: blobD 20s ease-in-out infinite alternate; }
+.blob-2 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(223,159,118,.13) 0%, transparent 70%); bottom: -80px; left: -100px; animation: blobD 26s ease-in-out infinite alternate-reverse; }
+.blob-3 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(151,106,157,.14) 0%, transparent 70%); top: 40%; left: 28%; animation: blobD 16s ease-in-out infinite alternate; }
+@keyframes blobD { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(40px,-30px) scale(1.05)} 66%{transform:translate(-20px,40px) scale(.97)} 100%{transform:translate(30px,20px) scale(1.03)} }
+
+.hero-grid { position: absolute; inset: 0; z-index: 0; opacity: .035; background-image: linear-gradient(rgba(200,168,188,1) 1px, transparent 1px), linear-gradient(90deg, rgba(200,168,188,1) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%); }
+
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 60px; max-width: 1300px; margin: 0 auto; width: 100%; }
+
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(80,53,153,.18); border: 1px solid rgba(80,53,153,.38); color: var(--lavender); padding: 7px 18px; border-radius: 100px; font-size: .8rem; font-weight: 600; letter-spacing: .04em; margin-bottom: 28px; font-family: 'Sora',sans-serif; }
+.tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--peach); animation: tdot 2s infinite; box-shadow: 0 0 6px var(--glow-p); }
+@keyframes tdot { 0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 6px var(--glow-p)} 50%{opacity:.6;transform:scale(.75);box-shadow:0 0 12px var(--glow-p)} }
+
+.hero-h1 { font-size: clamp(2.7rem,4.8vw,4.5rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.03; margin-bottom: 26px; color: var(--white); }
+.h1-dim { color: rgba(240,235,248,.5); }
+.h1-grad { background: linear-gradient(125deg, var(--peach) 0%, #d47fc4 50%, var(--violet-bright) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-size: 200% 200%; animation: gradS 6s ease infinite; }
+@keyframes gradS { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+.hero-sub { font-size: 1.1rem; color: rgba(200,168,188,.78); max-width: 460px; margin-bottom: 42px; font-weight: 300; line-height: 1.75; }
+.hero-cta-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 52px; }
+
+.hero-stats { display: flex; gap: 0; border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; background: rgba(36,21,100,.15); backdrop-filter: blur(12px); max-width: 460px; }
+.h-stat { flex: 1; padding: 18px 20px; text-align: center; border-right: 1px solid var(--glass-border); }
+.h-stat:last-child { border-right: none; }
+.h-stat h3 { font-size: 1.75rem; font-weight: 800; letter-spacing: -.04em; background: linear-gradient(135deg, var(--white), var(--peach)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.h-stat p { font-size: .72rem; color: var(--lavender); margin-top: 2px; letter-spacing: .01em; }
+
+/* ORBIT */
+.hero-orbit-wrap { position: relative; width: 100%; aspect-ratio: 1; max-width: 520px; justify-self: center; }
+.orbit-stage { position: relative; width: 100%; height: 100%; }
+.o-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); border-radius: 50%; }
+.ring-in  { width: 46%; height: 46%; border: 1px solid rgba(151,106,157,.18); }
+.ring-mid { width: 72%; height: 72%; border: 1px solid rgba(80,53,153,.18); }
+.ring-out { width: 98%; height: 98%; border: 1px solid rgba(200,168,188,.08); }
+.ring-spin-a { position: absolute; top: 50%; left: 50%; width: 60%; height: 60%; border-radius: 50%; border: 1px dashed rgba(151,106,157,.14); animation: spinCW 40s linear infinite; }
+.ring-spin-b { position: absolute; top: 50%; left: 50%; width: 85%; height: 85%; border-radius: 50%; border: 1px dashed rgba(80,53,153,.11); animation: spinCCW 55s linear infinite; }
+@keyframes spinCW  { to { transform: translate(-50%,-50%) rotate(360deg); } }
+@keyframes spinCCW { to { transform: translate(-50%,-50%) rotate(-360deg); } }
+.orbit-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, rgba(80,53,153,.4) 0%, transparent 70%); z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.orbit-core h2 { font-size: 2.6rem; font-weight: 800; letter-spacing: -.06em; background: linear-gradient(135deg, var(--white), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
+.orbit-core p { font-size: .7rem; color: var(--lavender); letter-spacing: .08em; text-transform: uppercase; margin-top: 3px; }
+.o-node { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 4; }
+.o-node-in { display: flex; flex-direction: column; align-items: center; position: relative; }
+.o-av { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--mauve), var(--purple-deep)); border: 2px solid rgba(200,168,188,.25); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; box-shadow: 0 0 0 4px rgba(80,53,153,.1), 0 0 20px rgba(80,53,153,.3); }
+.o-av.gp { box-shadow: 0 0 0 4px rgba(223,159,118,.1), 0 0 24px var(--glow-p); border-color: rgba(223,159,118,.4); }
+.o-av.gv { box-shadow: 0 0 0 4px rgba(80,53,153,.15), 0 0 24px var(--glow-v); border-color: rgba(80,53,153,.5); }
+.o-av.lg { width: 58px; height: 58px; font-size: 1.5rem; }
+.o-chip { width: 46px; height: 46px; border-radius: 13px; background: rgba(36,21,100,.7); border: 1px solid rgba(80,53,153,.3); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; box-shadow: 0 0 18px rgba(80,53,153,.25); }
+.o-badge { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--violet), var(--violet-bright)); color: white; font-size: .66rem; font-weight: 700; font-family: 'Sora',sans-serif; padding: 3px 10px; border-radius: 100px; white-space: nowrap; box-shadow: 0 0 12px var(--glow-v); border: 2px solid var(--bg); }
+
+@keyframes flt1 { 0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); } 50% { transform: translate(-50%,-50%) translateY(-10px) translateX(4px) scale(1.04); } }
+@keyframes flt2 { 0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); } 50% { transform: translate(-50%,-50%) translateY(8px) translateX(-3px) scale(1.03); } }
+@keyframes flt3 { 0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); } 50% { transform: translate(-50%,-50%) translateY(-13px) translateX(5px) scale(1.05); } }
+@keyframes flt4 { 0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); } 50% { transform: translate(-50%,-50%) translateY(6px) translateX(-4px) scale(1.02); } }
+@keyframes flt5 { 0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); } 50% { transform: translate(-50%,-50%) translateY(-8px) translateX(3px) scale(1.04); } }
+
+.o-node[data-f="1"] { animation: flt1 6s   ease-in-out infinite; animation-delay: -1s; }
+.o-node[data-f="2"] { animation: flt2 7s   ease-in-out infinite; animation-delay: -2s; }
+.o-node[data-f="3"] { animation: flt3 5.5s ease-in-out infinite; animation-delay: -0.5s; }
+.o-node[data-f="4"] { animation: flt4 6.5s ease-in-out infinite; animation-delay: -1.5s; }
+.o-node[data-f="5"] { animation: flt5 7.5s ease-in-out infinite; animation-delay: -2.5s; }
+
+.o-node-in { display: flex; flex-direction: column; align-items: center; position: relative; }
+
+/* mobile orbit mini */
+.orbit-mini { display: none; position: relative; width: 240px; height: 240px; margin: 32px auto 0; }
+.mini-ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(80,53,153,.2); }
+.mini-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+.mini-core h3 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--white), var(--peach)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.mini-core p { font-size: .7rem; color: var(--lavender); text-transform: uppercase; letter-spacing: .08em; }
+.mini-node { position: absolute; top: 50%; left: 50%; font-size: 1.4rem; }
+
+/* TRUSTED BAR */
+.trusted-bar { background: rgba(36,21,100,.12); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); padding: 28px 5%; }
+.trusted-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; gap: 36px; flex-wrap: wrap; }
+.t-label { font-size: .72rem; font-family: 'Sora',sans-serif; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(151,106,157,.6); flex-shrink: 0; }
+.t-divider { width: 1px; height: 30px; background: var(--glass-border); flex-shrink: 0; }
+.t-statement { font-family: 'Sora',sans-serif; font-weight: 700; font-size: 1rem; color: rgba(240,235,248,.5); letter-spacing: -.02em; }
+.t-statement span { background: linear-gradient(135deg, var(--peach), var(--lavender)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.t-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.t-pill { background: rgba(88,58,84,.18); border: 1px solid var(--glass-border); border-radius: 100px; padding: 5px 14px; font-size: .76rem; font-family: 'Sora',sans-serif; font-weight: 500; color: rgba(200,168,188,.5); white-space: nowrap; transition: color .25s, border-color .25s; }
+.t-pill:hover { color: rgba(200,168,188,.9); border-color: rgba(200,168,188,.25); }
+
+/* SECTION SHARED */
+section { padding: 110px 5%; }
+.si { max-width: 1300px; margin: 0 auto; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Sora',sans-serif; font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lavender); margin-bottom: 14px; }
+.eyebrow::before { content: ''; width: 16px; height: 2px; background: linear-gradient(90deg, var(--peach), var(--violet)); border-radius: 1px; }
+.s-title { font-size: clamp(2rem,3.5vw,3.1rem); font-weight: 800; letter-spacing: -.045em; margin-bottom: 16px; color: var(--white); }
+.s-title span { background: linear-gradient(125deg, var(--peach), var(--lavender)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.s-sub { font-size: 1.05rem; color: rgba(200,168,188,.75); max-width: 540px; font-weight: 300; line-height: 1.75; }
+.s-head { margin-bottom: 64px; }
+
+/* SERVICES */
+#services { background: linear-gradient(180deg, var(--bg) 0%, rgba(36,21,100,.12) 60%, var(--bg) 100%); }
+.svc-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 16px; }
+.svc-card { background: rgba(88,58,84,.09); border: 1px solid var(--glass-border); border-radius: 20px; padding: 32px 28px; position: relative; overflow: hidden; transition: transform .35s cubic-bezier(.34,1.56,.64,1), border-color .3s, box-shadow .35s; cursor: default; }
+.svc-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(80,53,153,.07), transparent); transition: left .5s; }
+.svc-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 10%, var(--violet) 50%, transparent 90%); opacity: 0; transition: opacity .3s; }
+.svc-card:hover { transform: translateY(-5px); border-color: rgba(80,53,153,.4); box-shadow: 0 20px 60px rgba(80,53,153,.18), 0 0 0 1px rgba(80,53,153,.1); }
+.svc-card:hover::before { left: 140%; }
+.svc-card:hover::after { opacity: 1; }
+.c-w4 { grid-column: span 4; }
+.c-w2 { grid-column: span 2; }
+.c-w3 { grid-column: span 3; }
+.svc-icon { width: 50px; height: 50px; border-radius: 14px; background: linear-gradient(135deg, rgba(80,53,153,.3), rgba(88,58,84,.45)); border: 1px solid rgba(80,53,153,.25); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; margin-bottom: 22px; transition: transform .3s, box-shadow .3s; }
+.svc-card:hover .svc-icon { transform: scale(1.1) rotate(-3deg); box-shadow: 0 0 20px var(--glow-v); }
+.svc-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--white); letter-spacing: -.025em; }
+.svc-card p { font-size: .88rem; color: rgba(200,168,188,.75); line-height: 1.72; font-weight: 300; }
+.svc-tag { display: inline-flex; align-items: center; gap: 6px; margin-top: 20px; font-size: .72rem; font-family: 'Sora',sans-serif; font-weight: 700; color: var(--peach); letter-spacing: .06em; text-transform: uppercase; opacity: .8; transition: opacity .2s; }
+.svc-card:hover .svc-tag { opacity: 1; }
+.svc-bstat { font-family: 'Sora',sans-serif; font-size: 3rem; font-weight: 800; letter-spacing: -.06em; margin-top: 12px; background: linear-gradient(135deg, var(--peach), var(--lavender)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.svc-flex { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+.svc-flex-main { flex: 1; min-width: 220px; }
+.svc-flex-stat { text-align: center; flex-shrink: 0; }
+.svc-inset-stat { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
+.svc-inset-stat .n { font-family: 'Sora',sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -.05em; color: var(--peach); }
+.svc-inset-stat .l { font-size: .76rem; color: var(--lavender); font-weight: 400; }
+.svc-tall { display: flex; flex-direction: column; justify-content: space-between; }
+
+/* PROCESS */
+#process { background: linear-gradient(180deg, var(--bg) 0%, rgba(36,21,100,.18) 50%, var(--bg) 100%); overflow: hidden; }
+.process-track { position: relative; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+.process-track::before { content: ''; position: absolute; top: 47px; left: 12.5%; right: 12.5%; height: 1px; background: linear-gradient(90deg, transparent, var(--violet), var(--peach), var(--violet), transparent); z-index: 0; }
+.p-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 1; }
+.p-ring-wrap { position: relative; margin-bottom: 28px; }
+.p-ring { width: 96px; height: 96px; border-radius: 50%; border: 1px solid rgba(80,53,153,.3); display: flex; align-items: center; justify-content: center; background: rgba(36,21,100,.4); backdrop-filter: blur(12px); transition: border-color .3s, box-shadow .3s; }
+.p-step:hover .p-ring { border-color: var(--violet); box-shadow: 0 0 32px var(--glow-v); }
+.p-num { font-family: 'Sora',sans-serif; font-size: 2rem; font-weight: 800; letter-spacing: -.05em; background: linear-gradient(135deg, var(--white), var(--rose)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.p-badge { position: absolute; bottom: -4px; right: -4px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--violet), var(--violet-bright)); display: flex; align-items: center; justify-content: center; font-size: .9rem; box-shadow: 0 0 12px var(--glow-v); border: 2px solid var(--bg); }
+.p-step h3 { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 10px; letter-spacing: -.025em; }
+.p-step > p { font-size: .875rem; color: rgba(200,168,188,.7); font-weight: 300; line-height: 1.7; }
+
+/* CASE STUDIES */
+#case-studies { background: var(--bg); }
+.tab-bar { display: flex; gap: 8px; margin-bottom: 48px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.tab-bar::-webkit-scrollbar { display: none; }
+.tab-btn { flex-shrink: 0; padding: 9px 20px; border-radius: 100px; border: 1px solid var(--glass-border); background: rgba(88,58,84,.1); color: rgba(200,168,188,.7); font-family: 'Sora',sans-serif; font-size: .83rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all .25s; }
+.tab-btn.active, .tab-btn:hover { background: var(--violet); border-color: var(--violet); color: white; box-shadow: 0 0 20px var(--glow-v); }
+.tab-panel { display: none; }
+.tab-panel.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
+.cs-card { background: rgba(88,58,84,.08); border: 1px solid var(--glass-border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; transition: transform .35s cubic-bezier(.34,1.56,.64,1), border-color .3s, box-shadow .3s; position: relative; overflow: hidden; }
+.cs-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--peach), transparent); opacity: 0; transition: opacity .3s; }
+.cs-card:hover { transform: translateY(-5px); border-color: rgba(223,159,118,.28); box-shadow: 0 20px 60px rgba(36,21,100,.5), 0 0 0 1px rgba(223,159,118,.1); }
+.cs-card:hover::before { opacity: 1; }
+.cs-hero-metric { font-family: 'Sora',sans-serif; font-size: 3.4rem; font-weight: 800; letter-spacing: -.06em; line-height: 1; background: linear-gradient(135deg, var(--peach), #e8c4a0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+.cs-hero-lbl { font-size: .72rem; font-family: 'Sora',sans-serif; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(151,106,157,.7); margin-bottom: 20px; }
+.cs-divider { height: 1px; background: var(--glass-border); margin-bottom: 18px; }
+.cs-game { font-family: 'Sora',sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lavender); margin-bottom: 8px; }
+.cs-card h3 { font-size: .98rem; font-weight: 700; color: var(--white); margin-bottom: 14px; letter-spacing: -.02em; line-height: 1.4; }
+.cs-row { margin-bottom: 10px; }
+.cs-lbl { font-size: .68rem; font-family: 'Sora',sans-serif; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--lavender); margin-bottom: 3px; }
+.cs-txt { font-size: .86rem; color: rgba(200,168,188,.75); line-height: 1.6; font-weight: 300; }
+.cs-results { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; flex-wrap: wrap; }
+.m-badge { background: rgba(80,53,153,.18); border: 1px solid rgba(80,53,153,.25); border-radius: 10px; padding: 8px 14px; flex: 1; min-width: 70px; text-align: center; transition: background .25s; }
+.cs-card:hover .m-badge { background: rgba(80,53,153,.25); }
+
+/* tab card staggered reveal */
+@keyframes tabCardReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tab-anim { opacity: 0; }
+.tab-anim.tab-visible { animation: tabCardReveal 0.5s ease forwards; }
+.m-badge strong { display: block; font-family: 'Sora',sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--peach); letter-spacing: -.03em; }
+.m-badge span { font-size: .68rem; color: var(--lavender); }
+
+/* WHY */
+#why { background: linear-gradient(135deg, rgba(36,21,100,.25) 0%, var(--bg) 50%, rgba(88,58,84,.1) 100%); position: relative; overflow: hidden; }
+#why::before { content: ''; position: absolute; top: -200px; right: -200px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(80,53,153,.12), transparent 65%); pointer-events: none; }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.why-pts { display: flex; flex-direction: column; gap: 6px; }
+.why-pt { display: flex; gap: 20px; align-items: flex-start; padding: 22px 24px; border-radius: 16px; border: 1px solid transparent; transition: border-color .3s, background .3s, transform .3s; cursor: default; }
+.why-pt:hover { border-color: var(--glass-border); background: rgba(88,58,84,.12); transform: translateX(4px); }
+.why-num { font-family: 'Sora',sans-serif; font-size: .72rem; font-weight: 800; color: var(--violet-bright); background: rgba(80,53,153,.15); border: 1px solid rgba(80,53,153,.3); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; letter-spacing: .04em; transition: background .3s, box-shadow .3s; }
+.why-pt:hover .why-num { background: rgba(80,53,153,.3); box-shadow: 0 0 12px var(--glow-v); }
+.why-pt-t h4 { font-size: .98rem; font-weight: 700; color: var(--white); margin-bottom: 5px; letter-spacing: -.025em; }
+.why-pt-t p { font-size: .875rem; color: rgba(200,168,188,.7); font-weight: 300; line-height: 1.68; }
+.why-vis { display: flex; flex-direction: column; gap: 14px; }
+.bstat-card { background: linear-gradient(135deg, rgba(80,53,153,.22), rgba(88,58,84,.18)); border: 1px solid rgba(80,53,153,.28); border-radius: 22px; padding: 36px; text-align: center; position: relative; overflow: hidden; }
+.bstat-card::before { content: ''; position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, rgba(223,159,118,.12), transparent); }
+.bstat-card h2 { font-size: 4rem; font-weight: 800; letter-spacing: -.06em; background: linear-gradient(135deg, var(--peach), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.bstat-card p { color: rgba(200,168,188,.7); font-size: .9rem; margin-top: 6px; }
+.mini-stats-g { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mini-stat-c { background: rgba(88,58,84,.14); border: 1px solid var(--glass-border); border-radius: 16px; padding: 22px; text-align: center; transition: border-color .3s, transform .3s; }
+.mini-stat-c:hover { border-color: rgba(80,53,153,.3); transform: translateY(-2px); }
+.mini-stat-c h3 { font-size: 1.9rem; font-weight: 800; letter-spacing: -.04em; background: linear-gradient(135deg, var(--lavender), var(--white)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.mini-stat-c p { font-size: .78rem; color: rgba(200,168,188,.65); font-weight: 300; margin-top: 4px; }
+
+/* CONTACT */
+#contact { background: var(--bg); }
+.c-hook { background: linear-gradient(135deg, rgba(80,53,153,.2), rgba(88,58,84,.2)); border: 1px solid rgba(80,53,153,.3); border-radius: 24px; padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; margin-bottom: 56px; position: relative; overflow: hidden; }
+.c-hook::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(223,159,118,.08), transparent); pointer-events: none; }
+.c-hook-txt { position: relative; z-index: 1; }
+.c-hook-txt h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -.04em; color: var(--white); margin-bottom: 8px; }
+.c-hook-txt p { font-size: .95rem; color: rgba(200,168,188,.75); font-weight: 300; max-width: 480px; }
+.c-hook-txt p strong { color: var(--peach); font-weight: 600; }
+.c-hook-badge { flex-shrink: 0; background: rgba(223,159,118,.12); border: 1px solid rgba(223,159,118,.25); border-radius: 16px; padding: 18px 24px; text-align: center; position: relative; z-index: 1; }
+.c-hook-badge h4 { font-size: 1.4rem; font-weight: 800; color: var(--peach); letter-spacing: -.03em; }
+.c-hook-badge p { font-size: .75rem; color: rgba(200,168,188,.6); margin-top: 4px; }
+.c-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: start; }
+.c-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; color: var(--white); letter-spacing: -.03em; }
+.c-info > p { font-size: .95rem; color: rgba(200,168,188,.7); font-weight: 300; margin-bottom: 36px; line-height: 1.72; }
+.offices { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+.off-card { background: rgba(88,58,84,.1); border: 1px solid var(--glass-border); border-radius: 14px; padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start; transition: border-color .25s; }
+.off-card:hover { border-color: rgba(80,53,153,.3); }
+.off-ico { width: 38px; height: 38px; border-radius: 10px; background: rgba(80,53,153,.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.off-card h4 { font-size: .88rem; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+.off-card p { font-size: .82rem; color: rgba(200,168,188,.65); font-weight: 300; }
+.c-email { display: inline-flex; align-items: center; gap: 10px; color: var(--peach); font-size: .98rem; font-weight: 600; text-decoration: none; font-family: 'Sora',sans-serif; transition: color .2s, gap .2s; }
+.c-email:hover { color: var(--white); gap: 14px; }
+.c-form { background: rgba(88,58,84,.08); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; }
+.c-form h3 { font-size: 1.2rem; font-weight: 700; color: var(--white); margin-bottom: 28px; letter-spacing: -.03em; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg { margin-bottom: 16px; }
+.fg label { display: block; font-size: .72rem; font-weight: 700; font-family: 'Sora',sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--lavender); margin-bottom: 8px; }
+.fg input, .fg textarea { width: 100%; background: rgba(36,21,100,.25); border: 1px solid rgba(200,168,188,.12); border-radius: 12px; padding: 13px 17px; color: var(--white); font-family: 'DM Sans',sans-serif; font-size: .93rem; outline: none; transition: border-color .25s, box-shadow .25s, background .25s; -webkit-appearance: none; }
+.fg input::placeholder, .fg textarea::placeholder { color: rgba(200,168,188,.3); }
+.fg input:focus, .fg textarea:focus { border-color: rgba(80,53,153,.5); background: rgba(36,21,100,.35); box-shadow: 0 0 0 3px rgba(80,53,153,.1); }
+.fg textarea { resize: vertical; min-height: 116px; }
+.btn-submit { width: 100%; background: linear-gradient(135deg, var(--violet), var(--violet-bright)); color: white; border: none; padding: 17px 32px; border-radius: 100px; font-family: 'Sora',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: -.02em; box-shadow: 0 0 40px var(--glow-v), inset 0 1px 0 rgba(255,255,255,.12); transition: all .35s cubic-bezier(.34,1.56,.64,1); margin-top: 8px; }
+.btn-submit:hover { box-shadow: 0 0 70px var(--glow-v); transform: translateY(-2px) scale(1.01); }
+.form-note { text-align: center; font-size: .78rem; color: rgba(200,168,188,.4); margin-top: 12px; }
+.form-success { display: none; text-align: center; padding: 28px 16px; }
+.form-success-ico { font-size: 3rem; margin-bottom: 14px; }
+.form-success h3 { font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.form-success p { font-size: .9rem; color: rgba(200,168,188,.7); font-weight: 300; line-height: 1.7; }
+
+/* FOOTER */
+footer { background: rgba(36,21,100,.1); border-top: 1px solid var(--glass-border); padding: 64px 5% 40px; }
+.foot-in { max-width: 1300px; margin: 0 auto; }
+.foot-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 52px; }
+.foot-brand > p { font-size: .88rem; color: rgba(200,168,188,.55); font-weight: 300; margin-top: 14px; max-width: 260px; line-height: 1.72; }
+.foot-col h5 { font-size: .72rem; font-family: 'Sora',sans-serif; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lavender); margin-bottom: 16px; }
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.foot-col ul a { color: rgba(200,168,188,.55); text-decoration: none; font-size: .88rem; font-weight: 300; transition: color .2s; }
+.foot-col ul a:hover { color: var(--white); }
+.social-links { display: flex; gap: 10px; margin-top: 22px; }
+.soc-link { width: 38px; height: 38px; border-radius: 10px; background: rgba(88,58,84,.18); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: rgba(200,168,188,.6); text-decoration: none; font-size: .9rem; transition: all .25s; }
+.soc-link:hover { background: var(--violet); border-color: var(--violet); color: white; box-shadow: 0 0 16px var(--glow-v); transform: translateY(-2px); }
+.foot-bot { border-top: 1px solid var(--glass-border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.foot-bot p { font-size: .82rem; color: rgba(151,106,157,.6); font-weight: 300; }
+.foot-links { display: flex; gap: 22px; }
+.foot-links a { font-size: .82rem; color: rgba(200,168,188,.5); text-decoration: none; transition: color .2s; }
+.foot-links a:hover { color: var(--white); }
+
+/* REVEAL ANIMS */
+.reveal { opacity: 1; transform: none; }
+.reveal.visible { opacity: 1; transform: none; }
+.rl { opacity: 1; transform: none; }
+.rl.visible { opacity: 1; transform: none; }
+.rr { opacity: 1; transform: none; }
+.rr.visible { opacity: 1; transform: none; }
+
+/* hero staggered reveal — only applied to #hero .reveal elements via JS */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-anim { opacity: 0; animation: heroFadeUp 0.7s ease forwards; }
+.hero-anim.da0 { animation-delay: 0s; }
+.hero-anim.da1 { animation-delay: 0.12s; }
+.hero-anim.da2 { animation-delay: 0.24s; }
+.hero-anim.da3 { animation-delay: 0.36s; }
+.hero-anim.da4 { animation-delay: 0.48s; }
+.d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; } .d5 { transition-delay: .5s; }
+/* failsafe: force-show all animated elements after 1.5s in case JS observer misses them */
+
+
+/* HAMBURGER */
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 300; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all .3s; }
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.mob-menu { position: fixed; inset: 0; z-index: 250; background: rgba(5,5,19,.97); backdrop-filter: blur(24px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; transform: translateX(100%); transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.mob-menu.open { transform: translateX(0); }
+.mob-menu a { color: var(--white); text-decoration: none; font-family: 'Sora',sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: -.03em; opacity: 0; transform: translateX(20px); transition: color .2s, opacity .4s, transform .4s; }
+.mob-menu.open a { opacity: 1; transform: translateX(0); }
+.mob-menu.open a:nth-child(1){transition-delay:.1s} .mob-menu.open a:nth-child(2){transition-delay:.15s} .mob-menu.open a:nth-child(3){transition-delay:.2s} .mob-menu.open a:nth-child(4){transition-delay:.25s} .mob-menu.open a:nth-child(5){transition-delay:.3s} .mob-menu.open a:nth-child(6){transition-delay:.35s}
+.mob-menu a:hover { color: var(--peach); }
+
+/* RESPONSIVE */
+@media (max-width:1100px) {
+  .svc-grid { grid-template-columns: repeat(3,1fr); }
+  .c-w4 { grid-column: span 3; } .c-w2 { grid-column: span 3; } .c-w3 { grid-column: span 3; }
+}
+@media (max-width:900px) {
+  .nav-links,.nav-actions { display: none; }
+  .hamburger { display: flex; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-orbit-wrap { display: none; }
+  .orbit-mini { display: block; }
+  .hero-h1 { font-size: 2.5rem; }
+  .hero-sub { max-width: 100%; }
+  .process-track { grid-template-columns: 1fr 1fr; }
+  .process-track::before { display: none; }
+  .why-grid { grid-template-columns: 1fr; gap: 48px; }
+  .c-grid { grid-template-columns: 1fr; }
+  .c-hook { flex-direction: column; }
+  .foot-top { grid-template-columns: 1fr 1fr; }
+  section { padding: 80px 5%; }
+}
+@media (max-width:640px) {
+  .svc-grid { grid-template-columns: 1fr; }
+  .c-w4,.c-w2,.c-w3 { grid-column: span 1; }
+  .form-row { grid-template-columns: 1fr; }
+  .foot-top { grid-template-columns: 1fr; }
+  .foot-bot { flex-direction: column; text-align: center; }
+  .process-track { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; border-radius: 16px; }
+  .h-stat { border-right: none; border-bottom: 1px solid var(--glass-border); }
+  .h-stat:last-child { border-bottom: none; }
+  .trusted-inner { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .t-pills { margin-left: 0; }
+  .t-divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-icon"><img src="data:image/png;base64,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" alt="ADDFINS Logo" style="width:100%;height:100%;object-fit:contain;display:block;"></div>
+    <span class="logo-wm">ADDFINS</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#case-studies">Results</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#contact-form" class="btn-primary">Start Project</a>
+  </div>
+  <button class="hamburger" id="menuToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <button onclick="closeMob()" aria-label="Close menu" style="position:absolute;top:24px;right:24px;background:none;border:none;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:rgba(240,235,248,0.7);font-size:1.5rem;line-height:1;transition:opacity .2s,transform .2s;z-index:10;" onmouseover="this.style.opacity='.5';this.style.transform='scale(1.15)'" onmouseout="this.style.opacity='1';this.style.transform='scale(1)'">&#x2715;</button>
+  <a href="#services"     onclick="closeMob()">Services</a>
+  <a href="#process"      onclick="closeMob()">Process</a>
+  <a href="#case-studies" onclick="closeMob()">Results</a>
+  <a href="#why"          onclick="closeMob()">Why Us</a>
+  <a href="#contact"      onclick="closeMob()">Contact</a>
+  <a href="#contact-form" class="btn-primary" onclick="closeMob()" style="font-size:1rem">Start Project</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-inner" id="heroInner">
+    <div>
+      <div class="hero-tag hero-anim da0"><div class="tag-dot"></div>Gaming-First Growth Agency</div>
+      <h1 class="hero-h1 hero-anim da1">
+        Your Game<br>
+        <span class="h1-dim">Deserves to</span><br>
+        <span class="h1-grad">Actually Scale</span>
+      </h1>
+      <p class="hero-sub hero-anim da2">ADDFINS drives measurable growth for mobile game studios — through precision UA, monetization engineering, and channel-specific marketing that speaks fluent gaming.</p>
+      <div class="hero-cta-row hero-anim da3">
+        <a href="#contact" class="btn-hero">Book Free Audit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#case-studies" class="btn-ghost">See Results</a>
+      </div>
+      <div class="hero-stats hero-anim da4">
+        <div class="h-stat"><h3>3.8×</h3><p>Avg ROAS</p></div>
+        <div class="h-stat"><h3>60+</h3><p>Games Scaled</p></div>
+        <div class="h-stat"><h3>42%</h3><p>CPI Reduction</p></div>
+      </div>
+      <div class="orbit-mini">
+        <div class="mini-ring"></div>
+        <div class="mini-core"><h3>60+</h3><p>Games Scaled</p></div>
+        <div class="mini-node" style="top:4%;left:50%">🚀</div>
+        <div class="mini-node" style="top:50%;left:2%">🎯</div>
+        <div class="mini-node" style="top:50%;left:94%">📊</div>
+        <div class="mini-node" style="top:90%;left:50%">💰</div>
+      </div>
+    </div>
+
+    <div class="hero-orbit-wrap" id="orbitWrap">
+      <div class="orbit-stage" id="orbitStage">
+        <div class="o-ring ring-in"></div>
+        <div class="o-ring ring-mid"></div>
+        <div class="o-ring ring-out"></div>
+        <div class="ring-spin-a" style="transform:translate(-50%,-50%)"></div>
+        <div class="ring-spin-b" style="transform:translate(-50%,-50%)"></div>
+        <div class="orbit-core"><h2>60+</h2><p>Games Scaled</p></div>
+        <div class="o-node" style="top:19%;left:55%" data-f="1"><div class="o-node-in"><div class="o-av gp">🎯</div><div class="o-badge">UA</div></div></div>
+        <div class="o-node" style="top:82%;left:44%" data-f="2"><div class="o-node-in"><div class="o-av">📊</div></div></div>
+        <div class="o-node" style="top:8%;left:65%" data-f="3"><div class="o-node-in"><div class="o-av gv lg">🚀</div><div class="o-badge">Scale</div></div></div>
+        <div class="o-node" style="top:50%;left:3%" data-f="4"><div class="o-node-in"><div class="o-chip">📱</div></div></div>
+        <div class="o-node" style="top:88%;left:60%" data-f="1"><div class="o-node-in"><div class="o-av gp">💰</div></div></div>
+        <div class="o-node" style="top:42%;left:96%" data-f="5"><div class="o-node-in"><div class="o-chip">🎮</div></div></div>
+        <div class="o-node" style="top:4%;left:46%" data-f="2"><div class="o-node-in"><div class="o-av" style="width:44px;height:44px">🌍</div></div></div>
+        <div class="o-node" style="top:94%;left:50%" data-f="3"><div class="o-node-in"><div class="o-chip" style="width:42px;height:42px;font-size:1rem">📈</div><div class="o-badge">ROAS 3.8×</div></div></div>
+        <div class="o-node" style="top:52%;left:97%" data-f="4"><div class="o-node-in"><div class="o-av gp" style="font-size:1rem">🏆</div></div></div>
+        <div class="o-node" style="top:22%;left:5%" data-f="5"><div class="o-node-in"><div class="o-chip" style="font-size:1rem">✨</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED -->
+<div class="trusted-bar">
+  <div class="trusted-inner">
+    <span class="t-label">Credibility</span>
+    <div class="t-divider"></div>
+    <p class="t-statement">Trusted by teams behind <span>50+ global titles</span> across mobile, PC &amp; console</p>
+    <div class="t-pills">
+      <span class="t-pill">Mobile Games</span>
+      <span class="t-pill">PC Studios</span>
+      <span class="t-pill">Indie Publishers</span>
+      <span class="t-pill">Gaming Startups</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="si">
+    <div class="s-head reveal">
+      <span class="eyebrow">What We Do</span>
+      <h2 class="s-title">Full-Stack Growth<br><span>for Game Studios</span></h2>
+      <p class="s-sub">Purpose-built for gaming — not repurposed from a generic agency playbook.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card c-w4 reveal">
+        <div class="svc-flex">
+          <div class="svc-flex-main">
+            <div class="svc-icon">📱</div>
+            <h3>Mobile Game User Acquisition</h3>
+            <p>We engineer performance UA campaigns across Google UAC, Meta Ads, Unity Ads, ironSource, and TikTok — with creative iteration cycles, bid automation, and MMP-integrated reporting. We don't just drive installs; we acquire users who generate revenue.</p>
+            <span class="svc-tag">→ Google · Meta · Unity · TikTok</span>
+          </div>
+          <div class="svc-flex-stat">
+            <div class="svc-bstat">3.8×</div>
+            <p style="font-size:.78rem;color:var(--lavender);font-family:'Sora',sans-serif;font-weight:500;letter-spacing:.06em;text-transform:uppercase">Avg ROAS Delivered</p>
+          </div>
+        </div>
+      </div>
+      <div class="svc-card c-w2 svc-tall reveal d1">
+        <div>
+          <div class="svc-icon">💰</div>
+          <h3>Ad Monetization Optimization</h3>
+          <p>We rebuild your mediation stack from scratch — MAX, AdMob, ironSource — with geo-segmented floor pricing, rewarded video placement strategy, and A/B tested ad formats that lift eCPM without destroying retention.</p>
+          <span class="svc-tag">→ eCPM Engineering</span>
+        </div>
+        <div class="svc-inset-stat"><div class="n">+47%</div><div class="l">Avg eCPM lift across optimized stacks</div></div>
+      </div>
+      <div class="svc-card c-w2 svc-tall reveal d2">
+        <div>
+          <div class="svc-icon">🔍</div>
+          <h3>SEO & App Store Optimization</h3>
+          <p>Rank where players search. We optimize keyword metadata, screenshot conversion, and preview videos for both stores — and extend organic reach with content SEO.</p>
+          <span class="svc-tag">→ ASO · Content SEO</span>
+        </div>
+        <div class="svc-inset-stat"><div class="n">3×</div><div class="l">Typical organic install growth in 90 days</div></div>
+      </div>
+      <div class="svc-card c-w2 svc-tall reveal">
+        <div>
+          <div class="svc-icon">🌐</div>
+          <h3>Game Landing Pages & Studio Websites</h3>
+          <p>High-converting, lightning-fast pages designed to turn ad traffic into store clicks and press interest into publishing deals.</p>
+          <span class="svc-tag">→ Web Development</span>
+        </div>
+        <div class="svc-inset-stat"><div class="n">34%</div><div class="l">Avg store page CTR from our landing pages</div></div>
+      </div>
+      <div class="svc-card c-w2 svc-tall reveal d1">
+        <div>
+          <div class="svc-icon">🎨</div>
+          <h3>UI/UX & Creative Design</h3>
+          <p>Store icons, screenshots, A/B-tested video ads, and onboarding flows — designed from behavioral data, not guesswork.</p>
+          <span class="svc-tag">→ Creative Production</span>
+        </div>
+        <div class="svc-inset-stat"><div class="n">+28%</div><div class="l">Typical install CVR lift from store redesigns</div></div>
+      </div>
+      <div class="svc-card c-w2 svc-tall reveal d2">
+        <div>
+          <div class="svc-icon">📣</div>
+          <h3>Social Media & Community</h3>
+          <p>TikTok, YouTube, Discord, Reddit — we build gaming communities that turn players into advocates and advocates into a distribution channel.</p>
+          <span class="svc-tag">→ Community Growth</span>
+        </div>
+        <div class="svc-inset-stat"><div class="n">240K</div><div class="l">Followers built for one title pre-launch</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="si">
+    <div class="s-head reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+      <span class="eyebrow">How We Work</span>
+      <h2 class="s-title">Four Steps.<br><span>One Goal: Growth.</span></h2>
+      <p class="s-sub" style="text-align:center;margin:0 auto">We don't take on projects and disappear. Here's exactly how we turn your game's potential into measurable results.</p>
+    </div>
+    <div class="process-track">
+      <div class="p-step reveal">
+        <div class="p-ring-wrap"><div class="p-ring"><span class="p-num">01</span></div><div class="p-badge">🔬</div></div>
+        <h3>Audit</h3>
+        <p>We dissect your UA campaigns, monetization setup, store listing, and creative performance. We find exactly what's leaking revenue — before spending a dollar.</p>
+      </div>
+      <div class="p-step reveal d1">
+        <div class="p-ring-wrap"><div class="p-ring"><span class="p-num">02</span></div><div class="p-badge">🗺️</div></div>
+        <h3>Strategy</h3>
+        <p>We build a channel-specific growth roadmap with defined KPIs — CPI targets, ROAS goals, eCPM benchmarks. Scoped to your game's genre, market, and stage.</p>
+      </div>
+      <div class="p-step reveal d2">
+        <div class="p-ring-wrap"><div class="p-ring"><span class="p-num">03</span></div><div class="p-badge">⚡</div></div>
+        <h3>Execution</h3>
+        <p>Campaigns live. Creative variants ship in weeks, not months. We test aggressively, kill what doesn't work, and double down on what does — with weekly reporting you can act on.</p>
+      </div>
+      <div class="p-step reveal d3">
+        <div class="p-ring-wrap"><div class="p-ring"><span class="p-num">04</span></div><div class="p-badge">📈</div></div>
+        <h3>Scale</h3>
+        <p>Once the unit economics work, we scale hard. Budget expansion, new markets, new channels — all while keeping ROAS-positive and retention benchmarks healthy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="case-studies">
+  <div class="si">
+    <div class="s-head reveal">
+      <span class="eyebrow">Proof of Performance</span>
+      <h2 class="s-title">Numbers That Actually<br><span>Happened</span></h2>
+      <p class="s-sub">Real campaigns. Real metrics. No inflated projections, no cherry-picked outliers.</p>
+    </div>
+    <div class="tab-bar reveal">
+      <button class="tab-btn active" onclick="switchTab('ua',this)">User Acquisition</button>
+      <button class="tab-btn" onclick="switchTab('monetization',this)">Ad Monetization</button>
+      <button class="tab-btn" onclick="switchTab('webdev',this)">Web Development</button>
+      <button class="tab-btn" onclick="switchTab('seo',this)">SEO & ASO</button>
+      <button class="tab-btn" onclick="switchTab('social',this)">Social Media</button>
+    </div>
+
+    <!-- UA -->
+    <div class="tab-panel active" id="tab-ua">
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">4.2×</div><div class="cs-hero-lbl">ROAS Day-30</div><div class="cs-divider"></div><div class="cs-game">Pool Game · Android Casual</div><h3>From 200 to 5,000 Installs/Day Without Breaking Profitability</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">CPIs above $1.80 on Meta, volume plateau at 200/day, no ROAS-positive path at scale.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Rebuilt creative strategy (24 video variants), segmented LTV audiences, diversified to Google UAC + Unity Ads with bid automation.</div></div><div class="cs-results"><div class="m-badge"><strong>$0.48</strong><span>CPI</span></div><div class="m-badge"><strong>25×</strong><span>Volume</span></div><div class="m-badge"><strong>4.2×</strong><span>ROAS D30</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">58%↓</div><div class="cs-hero-lbl">Retargeting CPA</div><div class="cs-divider"></div><div class="cs-game">Cafe Tycoon · iOS Simulation</div><h3>Fixing Broken Retargeting and Recovering Lapsed Player LTV</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">D7 retention at 11%. Budget burning on low-intent retargeting segments with no cohort separation.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Segmented re-engagement funnel from MMP cohort data; personalized creatives for churned vs. dormant buckets.</div></div><div class="cs-results"><div class="m-badge"><strong>D7 +31%</strong><span>Retention</span></div><div class="m-badge"><strong>58%↓</strong><span>CPA</span></div><div class="m-badge"><strong>2.9×</strong><span>LTV Lift</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">$0.27</div><div class="cs-hero-lbl">CPI at 10K Daily Installs</div><div class="cs-divider"></div><div class="cs-game">Puzzle Burst · Hyper-Casual</div><h3>Breaking Through a $0.72 CPI Floor to Hit Sub-$0.30 at Volume</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Previous agency stuck at $0.72 CPI. Hyper-casual model unprofitable at those acquisition costs.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">80+ creative variants in 3 weeks, CBO campaign restructure, shifted primary volume to TikTok UGC-style content.</div></div><div class="cs-results"><div class="m-badge"><strong>$0.27</strong><span>CPI</span></div><div class="m-badge"><strong>10K</strong><span>Daily</span></div><div class="m-badge"><strong>62%↓</strong><span>CPI Drop</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">3.5×</div><div class="cs-hero-lbl">ROAS Day-60</div><div class="cs-divider"></div><div class="cs-game">Battle Cricket · Android Sports</div><h3>Expanding Into 4 New Markets with Localized Creative Strategy</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Strong India performance, but zero traction in Southeast Asia and Middle East despite huge cricket fanbases.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Localized creative sets per market, culturally adapted hooks, lookalike audiences from highest-ARPU cohorts.</div></div><div class="cs-results"><div class="m-badge"><strong>4 mkts</strong><span>Launched</span></div><div class="m-badge"><strong>$0.61</strong><span>CPI Avg</span></div><div class="m-badge"><strong>3.5×</strong><span>ROAS D60</span></div></div></div>
+    </div>
+
+    <!-- Monetization -->
+    <div class="tab-panel" id="tab-monetization">
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">2.4×</div><div class="cs-hero-lbl">Ad Revenue Growth</div><div class="cs-divider"></div><div class="cs-game">8 Ball Shoot It All · Pool</div><h3>Doubling Ad Revenue Without Triggering the Retention Death Spiral</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Aggressive ad placement caused 15% D7 retention drop and a wave of negative store reviews. Revenue vs. retention in direct conflict.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Redesigned ad flow with pacing rules, introduced opt-in rewarded video, rebuilt mediation waterfall prioritizing eCPM quality over fill rate.</div></div><div class="cs-results"><div class="m-badge"><strong>2.4×</strong><span>Ad Revenue</span></div><div class="m-badge"><strong>+18%</strong><span>D7 Retention</span></div><div class="m-badge"><strong>$0.09</strong><span>eCPM</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">+47%</div><div class="cs-hero-lbl">eCPM Uplift</div><div class="cs-divider"></div><div class="cs-game">Caroom · Board Game</div><h3>Eliminating Single-Network Dependency and Stabilizing eCPM</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Single ad network causing $0.04 eCPM lows — monthly revenue completely unpredictable.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Integrated MAX with 6 demand sources, A/B tested floor pricing, added programmatic demand for Tier-1 geos.</div></div><div class="cs-results"><div class="m-badge"><strong>+47%</strong><span>eCPM</span></div><div class="m-badge"><strong>6 nets</strong><span>Demand</span></div><div class="m-badge"><strong>3.1×</strong><span>Stability</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">+38%</div><div class="cs-hero-lbl">Revenue Uplift</div><div class="cs-divider"></div><div class="cs-game">Tower Rush · Strategy</div><h3>Adding Rewarded Video to a Format That "Doesn't Support It"</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Only interstitials and banners. Players ignoring ads. ARPDAU stuck at $0.018.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Designed in-game "Boost Zone" anchoring rewarded video. Tested 4 placements, landed on energy-refill and hint-unlock rewards.</div></div><div class="cs-results"><div class="m-badge"><strong>+38%</strong><span>Revenue</span></div><div class="m-badge"><strong>$0.031</strong><span>ARPDAU</span></div><div class="m-badge"><strong>72%</strong><span>RV Opt-in</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">+34%</div><div class="cs-hero-lbl">eCPM in Tier-2 Markets</div><div class="cs-divider"></div><div class="cs-game">Word Galaxy · Casual Puzzle</div><h3>Making India &amp; SEA Traffic Actually Profitable</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">High volume from India and SEA monetizing below $0.02 eCPM despite strong DAU in those markets.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Geo-segmented floor pricing, added regional demand partners, custom price rules per country tier.</div></div><div class="cs-results"><div class="m-badge"><strong>+34%</strong><span>eCPM T2</span></div><div class="m-badge"><strong>$0.028</strong><span>India eCPM</span></div><div class="m-badge"><strong>+21%</strong><span>Total Rev</span></div></div></div>
+    </div>
+
+    <!-- Web Dev -->
+    <div class="tab-panel" id="tab-webdev">
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">34%</div><div class="cs-hero-lbl">Visitor → Store Click Rate</div><div class="cs-divider"></div><div class="cs-game">IndieForge Studios</div><h3>Replacing a 2% Converting WordPress Page With a 34% Converting Landing Page</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Generic WordPress template converting paid traffic at 2.1%. High CPCs making paid UA economically unviable.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Custom landing page: gameplay video above fold, social proof widgets, geo-targeted App Store/Play Store CTAs.</div></div><div class="cs-results"><div class="m-badge"><strong>34%</strong><span>Store CTR</span></div><div class="m-badge"><strong>16× faster</strong><span>Load Speed</span></div><div class="m-badge"><strong>+280%</strong><span>Paid CVR</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">180K</div><div class="cs-hero-lbl">Pre-Registrations</div><div class="cs-divider"></div><div class="cs-game">Nexar Games · Mobile RPG</div><h3>Building a 180K-Strong Pre-Launch List Before a Single Ad Ran</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">No community, no email list, no pre-launch momentum for a high-budget RPG title.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Pre-registration page with reward tiers, countdown timer, social sharing mechanic integrated with CRM and push.</div></div><div class="cs-results"><div class="m-badge"><strong>180K</strong><span>Pre-Regs</span></div><div class="m-badge"><strong>$0.11</strong><span>Cost/Signup</span></div><div class="m-badge"><strong>41%</strong><span>D1 Install</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">3</div><div class="cs-hero-lbl">Publisher Inbound Deals</div><div class="cs-divider"></div><div class="cs-game">PixelBolt Studio</div><h3>From Invisible to Publisher-Ready in 8 Weeks</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Zero web presence. Studio invisible to publishers, press, and investors despite strong game metrics.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Multi-page studio site: animated game showcase, downloadable press kit, team profiles, gated investor portal.</div></div><div class="cs-results"><div class="m-badge"><strong>3 deals</strong><span>Pub. Inbound</span></div><div class="m-badge"><strong>92/100</strong><span>PageSpeed</span></div><div class="m-badge"><strong>4.2min</strong><span>Session</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">+67%</div><div class="cs-hero-lbl">Cross-Promo CVR</div><div class="cs-divider"></div><div class="cs-game">Arcade Republic · Publisher</div><h3>Unifying 12 Game Titles Under One Web Portal</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">12 titles on separate domains. No cross-promotion. Content team unable to update without dev.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Centralized portal with game switcher, unified analytics dashboard, no-code CMS for content updates.</div></div><div class="cs-results"><div class="m-badge"><strong>12 games</strong><span>Unified</span></div><div class="m-badge"><strong>+67%</strong><span>Cross-Promo</span></div><div class="m-badge"><strong>40%↓</strong><span>Bounce</span></div></div></div>
+    </div>
+
+    <!-- SEO -->
+    <div class="tab-panel" id="tab-seo">
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">3×</div><div class="cs-hero-lbl">Organic Installs in 90 Days</div><div class="cs-divider"></div><div class="cs-game">Pool Master Pro · Android</div><h3>Moving From #34 to #4 for "8 Ball Pool" on Google Play</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Ranked #34 for primary keyword. Install CVR at 1.8%. Organic installs flat for 6 months.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Full ASO audit: keyword density rewrite, 8 redesigned screenshots, 3 icon A/B variants, review velocity strategy.</div></div><div class="cs-results"><div class="m-badge"><strong>3×</strong><span>Org Installs</span></div><div class="m-badge"><strong>#4</strong><span>Keyword Rank</span></div><div class="m-badge"><strong>4.8%</strong><span>CVR</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">22K</div><div class="cs-hero-lbl">Monthly Organic Visitors</div><div class="cs-divider"></div><div class="cs-game">StrategyHive · PC Studio</div><h3>Building an Organic Traffic Engine From Zero Domain Authority</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">No blog, no backlinks, zero DA. 100% paid traffic — completely exposed to ad spend fluctuations.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">60-article content cluster, community wiki, 40+ high-DA backlink placements over 5 months.</div></div><div class="cs-results"><div class="m-badge"><strong>22K</strong><span>Visits/mo</span></div><div class="m-badge"><strong>DA 38</strong><span>Domain Auth</span></div><div class="m-badge"><strong>+180%</strong><span>Org Rev</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">5.6×</div><div class="cs-hero-lbl">iOS Organic Install Growth</div><div class="cs-divider"></div><div class="cs-game">Caroom · Cross-Platform</div><h3>iOS ASO: From 5K to 28K Monthly Organic Installs</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">iOS far underperforming Android despite equal quality. Poor keywords, screenshots not showing core loop.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">App Store keyword overhaul, screenshot redesign, preview video showing the 3-second core loop.</div></div><div class="cs-results"><div class="m-badge"><strong>5.6×</strong><span>Growth</span></div><div class="m-badge"><strong>28K</strong><span>Monthly</span></div><div class="m-badge"><strong>+22%</strong><span>Rating</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">2.1×</div><div class="cs-hero-lbl">Non-English Installs</div><div class="cs-divider"></div><div class="cs-game">VaultRun Games · Action</div><h3>Localizing ASO for 8 Regions — and Actually Seeing It Work</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">60% of users non-English speaking, but single-language SEO treating all markets identically.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Multi-language ASO metadata for 8 locales, culturally adapted descriptions, regional landing pages with hreflang.</div></div><div class="cs-results"><div class="m-badge"><strong>8 locales</strong><span>Optimized</span></div><div class="m-badge"><strong>+44%</strong><span>Regional</span></div><div class="m-badge"><strong>2.1×</strong><span>Non-EN</span></div></div></div>
+    </div>
+
+    <!-- Social -->
+    <div class="tab-panel" id="tab-social">
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">240K</div><div class="cs-hero-lbl">TikTok Followers Pre-Launch</div><div class="cs-divider"></div><div class="cs-game">Epic Strike · Mobile PvP</div><h3>Arriving at Launch With 240K Followers and 18M Views Already Banked</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Zero social presence before launch. Needed community heat to drive D1 installs and review velocity.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">TikTok-first strategy: gameplay clips, dev BTS, #EpicStrikeChallenge that went semi-viral in week 6.</div></div><div class="cs-results"><div class="m-badge"><strong>240K</strong><span>Followers</span></div><div class="m-badge"><strong>18M</strong><span>Views</span></div><div class="m-badge"><strong>Top 10</strong><span>Launch Day</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">35K</div><div class="cs-hero-lbl">Active Discord Members</div><div class="cs-divider"></div><div class="cs-game">Realm Rivals · Strategy</div><h3>Discord Community as a Free UA Channel — 23% Referral Install Rate</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Guild-based game with no community infrastructure, no way for players to find co-op partners.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Discord with guild matchmaking bots, weekly community tournaments, ambassador program for top contributors.</div></div><div class="cs-results"><div class="m-badge"><strong>35K</strong><span>Members</span></div><div class="m-badge"><strong>64%</strong><span>D30 Retention</span></div><div class="m-badge"><strong>23%</strong><span>Referral</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">$0.04</div><div class="cs-hero-lbl">CPC on Instagram Reels</div><div class="cs-divider"></div><div class="cs-game">SkyFarm · Idle Casual</div><h3>Dropping CPC From $0.68 to $0.04 With Native Reels Creative</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">Paid social CPCs averaging $0.68. Brand creative not resonating with casual gaming audiences.</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Native Reels format (no watermark), partnered with 6 nano-influencers in cozy gaming niche.</div></div><div class="cs-results"><div class="m-badge"><strong>$0.04</strong><span>CPC</span></div><div class="m-badge"><strong>94%↓</strong><span>CPC Drop</span></div><div class="m-badge"><strong>4.1%</strong><span>CVR</span></div></div></div>
+      <div class="cs-card tab-anim"><div class="cs-hero-metric">80K</div><div class="cs-hero-lbl">YouTube Subscribers</div><div class="cs-divider"></div><div class="cs-game">DriftX Racing · Mobile</div><h3>YouTube as a Growth Channel — 12% of All Installs Coming Organic</h3><div class="cs-row"><div class="cs-lbl">Challenge</div><div class="cs-txt">No long-form content channel. Competitors dominating YouTube search for "mobile racing game."</div></div><div class="cs-row"><div class="cs-lbl">What We Did</div><div class="cs-txt">Weekly race highlights, car tuning tutorials, community car reveals — every video SEO-optimized.</div></div><div class="cs-results"><div class="m-badge"><strong>80K</strong><span>Subscribers</span></div><div class="m-badge"><strong>12%</strong><span>Org Install</span></div><div class="m-badge"><strong>3.2M</strong><span>Views</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="si">
+    <div class="why-grid">
+      <div>
+        <div class="rl">
+          <span class="eyebrow">Why ADDFINS</span>
+          <h2 class="s-title">Not a Generalist Agency<br><span>With a Gaming Slide</span></h2>
+          <p class="s-sub" style="margin-bottom:44px">We've spent years inside the gaming vertical — and it shows in the specificity of what we do.</p>
+        </div>
+        <div class="why-pts">
+          <div class="why-pt reveal d1"><div class="why-num">01</div><div class="why-pt-t"><h4>We Think in CPIs, LTVs, and D7 Retention — Not CTRs and Impressions</h4><p>Our KPIs are aligned with yours. We measure success by ROAS, player LTV curves, and ARPDAU improvement — not the vanity metrics that look good in decks but don't move your P&L.</p></div></div>
+          <div class="why-pt reveal d2"><div class="why-num">02</div><div class="why-pt-t"><h4>We've Scaled 60+ Games — We Recognize Your Problem Before You Finish Describing It</h4><p>Pre-launch, soft launch, global scale, re-engagement — we've run campaigns at every inflection point. We know the shortcuts that first-time studios mistake for unique solutions.</p></div></div>
+          <div class="why-pt reveal d3"><div class="why-num">03</div><div class="why-pt-t"><h4>Creative Testing Isn't a Checkbox — It's 80+ Variants in 3 Weeks</h4><p>We ship creative aggressively. We A/B test icons, screenshots, video hooks, ad copy, and landing page layouts — because the winning variant is never the one you think it'll be.</p></div></div>
+          <div class="why-pt reveal d4"><div class="why-num">04</div><div class="why-pt-t"><h4>One Team Across Every Channel — No Agency Handoffs, No Strategy Gaps</h4><p>Your UA strategy feeds your ASO. Your landing page shapes your creative brief. Your community sentiment informs your monetization timing. We coordinate all of it — because in gaming, everything is connected.</p></div></div>
+        </div>
+      </div>
+      <div class="why-vis rr">
+        <div class="bstat-card"><h2>3.8×</h2><p>Average ROAS delivered across all UA campaigns in the last 12 months</p></div>
+        <div class="mini-stats-g">
+          <div class="mini-stat-c"><h3>60+</h3><p>Titles Scaled</p></div>
+          <div class="mini-stat-c"><h3>42%</h3><p>Avg CPI Reduction</p></div>
+          <div class="mini-stat-c"><h3>$4.2M+</h3><p>Ad Revenue Optimized</p></div>
+          <div class="mini-stat-c"><h3>18</h3><p>Countries Reached</p></div>
+        </div>
+        <div class="bstat-card" style="background:linear-gradient(135deg,rgba(223,159,118,.13),rgba(88,58,84,.18));border-color:rgba(223,159,118,.18)">
+          <h2 style="background:linear-gradient(135deg,var(--peach),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent">5+ yrs</h2>
+          <p>Working exclusively in gaming — zero generalist baggage</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="si">
+    <div class="s-head reveal" style="text-align:center;display:flex;flex-direction:column;align-items:center">
+      <span class="eyebrow">Get Started</span>
+      <h2 class="s-title">Let's Scale<br><span>Your Game</span></h2>
+    </div>
+    <div class="c-hook reveal">
+      <div class="c-hook-txt">
+        <h3>Book a Free Growth Audit</h3>
+        <p>We'll analyze your UA campaigns, monetization setup, and store listing — and deliver a prioritized action plan. <strong>No pitch. No obligation.</strong> Just an honest look at what's holding your game back.</p>
+      </div>
+      <div class="c-hook-badge"><h4>48hrs</h4><p>Turnaround time</p></div>
+    </div>
+    <div class="c-grid">
+      <div class="c-info rl">
+        <h3>Two Offices.<br>One Goal.</h3>
+        <p>Whether you're in Mumbai or Munich, we've got the timezone and the context. Our India team handles APAC; our Slovakia team covers Europe and North America.</p>
+        <div class="offices">
+          <div class="off-card"><div class="off-ico">🇮🇳</div><div><h4>Mumbai, India</h4><p>Asia-Pacific · Bandra Kurla Complex, Mumbai 400051</p></div></div>
+          <div class="off-card"><div class="off-ico">🇸🇰</div><div><h4>Bratislava, Slovakia</h4><p>Europe / Americas · Digital Park II, Einsteinova 25</p></div></div>
+        </div>
+        <a href="/cdn-cgi/l/email-protection#2b4844455f4a485f6b4a4f4f4d42455805484446" class="c-email">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span class="__cf_email__" data-cfemail="34575b5a4055574074555050525d5a471a575b59">[email&#160;protected]</span>
+        </a>
+      </div>
+      <div class="c-form rr" id="contact-form">
+        <h3>Tell Us About Your Game</h3>
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="fg"><label>Your Name</label><input type="text" placeholder="Jane Smith" id="formName"></div>
+            <div class="fg"><label>Email Address</label><input type="email" placeholder="jane@yourstudio.com" id="formEmail"></div>
+          </div>
+          <div class="fg"><label>Studio / Company</label><input type="text" placeholder="Awesome Games Studio" id="formCompany"></div>
+          <div class="fg"><label>Your game &amp; biggest growth challenge</label><textarea placeholder="We make a pool game for Android. Our CPI is $1.80 and we can't scale profitably. We'd love help with UA and maybe ASO..." id="formMessage"></textarea></div>
+          <button class="btn-submit" onclick="submitForm()">Book Free Growth Audit →</button>
+          <p class="form-note">No sales call. Just a real audit delivered in 48 hours.</p>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-ico">🎮</div>
+          <h3>Audit Request Received!</h3>
+          <p>We'll review your game and send back a growth audit within 48 hours. Check your inbox — and your spam folder just in case.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="nav-logo"><div class="logo-icon"><img src="data:image/png;base64,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" alt="ADDFINS Logo" style="width:100%;height:100%;object-fit:contain;display:block;"></div><span class="logo-wm">ADDFINS</span></a>
+        <p>The growth agency built exclusively for gaming studios. We scale mobile games with precision UA, monetization engineering, and full-channel digital marketing.</p>
+        <div class="social-links">
+          <a href="#" class="soc-link" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" class="soc-link" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" class="soc-link" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="soc-link" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col"><h5>Services</h5><ul><li><a href="#services">User Acquisition</a></li><li><a href="#services">Ad Monetization</a></li><li><a href="#services">Website Development</a></li><li><a href="#services">SEO & ASO</a></li><li><a href="#services">UI/UX Design</a></li><li><a href="#services">Social Media</a></li></ul></div>
+      <div class="foot-col"><h5>Company</h5><ul><li><a href="#why">About ADDFINS</a></li><li><a href="#process">Our Process</a></li><li><a href="#case-studies">Case Studies</a></li></ul></div>
+      <div class="foot-col"><h5>Contact</h5><ul><li><a href="/cdn-cgi/l/email-protection#c6a5a9a8b2a7a5b286a7a2a2a0afa8b5e8a5a9ab"><span class="__cf_email__" data-cfemail="5a3935342e3b392e1a3b3e3e3c33342974393537">[email&#160;protected]</span></a></li></ul></div>
+    </div>
+    <div class="foot-bot">
+      <p>© 2026 ADDFINS. All rights reserved. Built for the gaming industry.</p>
+      <div class="foot-links"><a href="javascript:void(0)" onclick="openModal('terms')">Terms &amp; Conditions</a><a href="javascript:void(0)" onclick="openModal('privacy')">Privacy Policy</a><a href="javascript:void(0)" onclick="openModal('cookie')">Cookie Policy</a></div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function closeMob() {
+  document.getElementById('mobMenu').classList.remove('open');
+  document.getElementById('menuToggle').classList.remove('open');
+}
+document.getElementById('menuToggle').addEventListener('click', function() {
+  document.getElementById('mobMenu').classList.toggle('open');
+  document.getElementById('menuToggle').classList.toggle('open');
+});
+function animateTabCards(panelId) {
+  var cards = document.querySelectorAll('#' + panelId + ' .tab-anim');
+  cards.forEach(function(card) {
+    card.classList.remove('tab-visible');
+    card.style.animationDelay = '';
+  });
+  void document.getElementById(panelId).offsetWidth;
+  cards.forEach(function(card, i) {
+    card.style.animationDelay = (i * 120) + 'ms';
+    card.classList.add('tab-visible');
+  });
+}
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  animateTabCards('tab-' + tab);
+}
+animateTabCards('tab-ua');
+</script>
+<script>
+/* NAV */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), {passive:true});
+
+/* MOBILE */
+
+/* PARALLAX MOUSE on orbit */
+(function(){
+  const stage = document.getElementById('orbitStage');
+  const hero  = document.getElementById('hero');
+  if (!stage || !hero) return;
+  let tx=0, ty=0, cx=0, cy=0;
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    tx = ((e.clientX-r.left)/r.width  - .5) * 26;
+    ty = ((e.clientY-r.top) /r.height - .5) * 20;
+  }, {passive:true});
+  hero.addEventListener('mouseleave', () => { tx=0; ty=0; }, {passive:true});
+  (function tick(){ cx+=(tx-cx)*.065; cy+=(ty-cy)*.065; stage.style.transform=`translate(${cx}px,${cy}px)`; requestAnimationFrame(tick); })();
+})();
+
+/* SCROLL REVEAL */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+}, {threshold: 0.05, rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.reveal,.rl,.rr').forEach(el => ro.observe(el));
+
+/* REVEAL ALL */
+document.querySelectorAll('.reveal, .rl, .rr').forEach(el => el.classList.add('visible'));
+document.querySelectorAll('.tab-panel.active .reveal').forEach(el => el.classList.add('visible'));
+
+/* FORM */
+function submitForm() {
+  const n=document.getElementById('formName').value.trim(), e=document.getElementById('formEmail').value.trim();
+  if (!n||!e) {
+    ['formName','formEmail','formCompany','formMessage'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&!el.value.trim()){ el.style.borderColor='rgba(223,159,118,.5)'; el.style.boxShadow='0 0 0 3px rgba(223,159,118,.08)'; setTimeout(()=>{el.style.borderColor='';el.style.boxShadow='';},2200); }
+    });
+    return;
+  }
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+}
+
+/* ACTIVE NAV */
+const navAs = document.querySelectorAll('.nav-links a');
+document.querySelectorAll('section[id]').forEach(s => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--white)' : ''; }); });
+  }, {threshold: 0.45}).observe(s);
+});
+</script>
+
+<!-- ══ MODALS ══ -->
+<style>
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(5,5,19,0.82); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: #12103a; border: 1px solid rgba(200,168,188,0.14);
+  border-radius: 20px; padding: 40px 44px;
+  max-width: 680px; width: 100%; max-height: 82vh;
+  overflow-y: auto; position: relative;
+  box-shadow: 0 0 60px rgba(80,53,153,0.25), 0 24px 80px rgba(0,0,0,0.5);
+  scrollbar-width: thin; scrollbar-color: #583A54 transparent;
+}
+.modal-box::-webkit-scrollbar { width: 5px; }
+.modal-box::-webkit-scrollbar-thumb { background: #583A54; border-radius: 3px; }
+.modal-close {
+  position: absolute; top: 18px; right: 20px;
+  background: none; border: none; cursor: pointer;
+  color: rgba(240,235,248,0.5); font-size: 1.4rem; line-height: 1;
+  transition: color .2s, transform .2s; padding: 4px;
+}
+.modal-close:hover { color: #F0EBF8; transform: scale(1.15); }
+.modal-box h2 {
+  font-family: 'Sora', sans-serif; font-size: 1.4rem; font-weight: 800;
+  letter-spacing: -.04em; color: #F0EBF8; margin-bottom: 8px;
+}
+.modal-box .modal-date {
+  font-size: .78rem; color: rgba(151,106,157,0.8); margin-bottom: 28px;
+  font-family: 'Sora', sans-serif;
+}
+.modal-box h3 {
+  font-family: 'Sora', sans-serif; font-size: .95rem; font-weight: 700;
+  color: #DF9F76; margin: 24px 0 8px; letter-spacing: -.02em;
+}
+.modal-box p {
+  font-size: .88rem; color: rgba(200,168,188,0.8);
+  line-height: 1.75; font-weight: 300; margin-bottom: 8px;
+}
+.modal-box ul {
+  padding-left: 18px; margin-bottom: 8px;
+}
+.modal-box ul li {
+  font-size: .88rem; color: rgba(200,168,188,0.8);
+  line-height: 1.75; font-weight: 300; margin-bottom: 4px;
+}
+@media (max-width: 640px) {
+  .modal-box { padding: 28px 22px; }
+  .modal-box h2 { font-size: 1.2rem; }
+}
+</style>
+
+<!-- Terms & Conditions -->
+<div class="modal-overlay" id="modal-terms" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <h2>Terms &amp; Conditions</h2>
+    <p class="modal-date">Last updated: March 2026</p>
+    <h3>1. Introduction</h3>
+    <p>Welcome to ADDFINS. By engaging our services, you agree to be bound by these Terms &amp; Conditions. Please read them carefully before proceeding. These terms apply to all clients, partners, and users who access or use our services.</p>
+    <h3>2. Services Overview</h3>
+    <p>ADDFINS provides digital marketing and growth services exclusively for the gaming industry, including but not limited to:</p>
+    <ul>
+      <li>Mobile User Acquisition (UA) campaign management</li>
+      <li>Ad monetization strategy and mediation stack optimization</li>
+      <li>App Store Optimization (ASO) and SEO</li>
+      <li>Landing page and studio website development</li>
+      <li>Social media management and community growth</li>
+      <li>Creative production and UI/UX design</li>
+    </ul>
+    <p>The scope, deliverables, and timelines for each engagement are defined in a separate Statement of Work (SOW) or service agreement.</p>
+    <h3>3. Client Responsibilities</h3>
+    <p>Clients are responsible for providing accurate information, timely access to platforms and accounts, and prompt feedback. ADDFINS is not liable for delays or underperformance caused by incomplete or inaccurate client inputs. Clients must ensure they have the legal right to use all creative assets, trademarks, and content provided to ADDFINS.</p>
+    <h3>4. Payment &amp; Engagement Terms</h3>
+    <p>Payment terms are outlined in the individual service agreement. Invoices are due within 14 days of issuance unless otherwise agreed. ADDFINS reserves the right to pause or suspend services in the event of non-payment. All fees are exclusive of applicable taxes.</p>
+    <h3>5. Intellectual Property</h3>
+    <p>All creative work, strategies, frameworks, and proprietary methodologies developed by ADDFINS remain the intellectual property of ADDFINS unless explicitly transferred in writing. Upon full payment, clients receive a license to use deliverables as agreed in the SOW.</p>
+    <h3>6. Limitation of Liability</h3>
+    <p>ADDFINS shall not be liable for indirect, incidental, or consequential damages arising from campaign performance, platform changes, or third-party actions. Our aggregate liability shall not exceed the total fees paid in the three months preceding any claim.</p>
+    <h3>7. Termination</h3>
+    <p>Either party may terminate an engagement with 30 days written notice. Upon termination, the client is liable for all work completed to date. ADDFINS will provide a final report and hand off access credentials within 7 business days.</p>
+    <h3>8. Governing Law</h3>
+    <p>These terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts of Mumbai, Maharashtra. For European clients, applicable EU regulations shall also apply.</p>
+  </div>
+</div>
+
+<!-- Privacy Policy -->
+<div class="modal-overlay" id="modal-privacy" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <h2>Privacy Policy</h2>
+    <p class="modal-date">Last updated: March 2026</p>
+    <h3>1. Information We Collect</h3>
+    <p>When you interact with ADDFINS — via our website, contact form, or service engagements — we may collect:</p>
+    <ul>
+      <li>Personal identifiers: name, email address, company name</li>
+      <li>Usage data: pages visited, time on site, referral source</li>
+      <li>Communication data: messages submitted through our contact form</li>
+      <li>Technical data: IP address, browser type, device information</li>
+    </ul>
+    <h3>2. How We Use Your Data</h3>
+    <p>We use collected information to respond to inquiries, deliver and improve our services, send relevant communications (with consent), and analyze website performance. We do not sell personal data to third parties.</p>
+    <h3>3. Third-Party Services</h3>
+    <p>We use trusted third-party services that may process data on our behalf, including:</p>
+    <ul>
+      <li>Google Analytics — website traffic analysis</li>
+      <li>Google Ads, Meta Ads — campaign performance tracking</li>
+      <li>Singular / AppsFlyer — mobile measurement and attribution</li>
+      <li>Cloudflare — security and performance</li>
+    </ul>
+    <p>Each third party operates under their own privacy policy and data processing agreements.</p>
+    <h3>4. Data Protection &amp; Security</h3>
+    <p>We implement appropriate technical and organizational measures to protect your data against unauthorized access, alteration, disclosure, or destruction. Data is stored on secure servers and access is restricted to authorized personnel only.</p>
+    <h3>5. Your Rights</h3>
+    <p>Depending on your location, you may have the right to access, correct, or delete your personal data. You may also object to processing or request data portability. To exercise any of these rights, contact us at:</p>
+    <p><strong style="color:#DF9F76"><a href="/cdn-cgi/l/email-protection#f99a96978d989a8db9989d9d9f90978ad79a9694" style="color:#DF9F76"><span class="__cf_email__" data-cfemail="aecdc1c0dacfcddaeecfcacac8c7c0dd80cdc1c3">[email&#160;protected]</span></a></strong></p>
+    <h3>6. Data Retention</h3>
+    <p>We retain personal data only as long as necessary for the purposes outlined in this policy or as required by law. Form submissions are retained for up to 24 months unless deletion is requested.</p>
+    <h3>7. Changes to This Policy</h3>
+    <p>We may update this Privacy Policy periodically. Changes will be posted on this page with an updated date. Continued use of our services after changes constitutes acceptance of the updated policy.</p>
+  </div>
+</div>
+
+<!-- Cookie Policy -->
+<div class="modal-overlay" id="modal-cookie" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <h2>Cookie Policy</h2>
+    <p class="modal-date">Last updated: March 2026</p>
+    <h3>1. What Are Cookies?</h3>
+    <p>Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, understand usage patterns, and deliver relevant content. Cookies do not contain personally identifiable information unless you have provided it to us.</p>
+    <h3>2. Types of Cookies We Use</h3>
+    <h3 style="color:#976A9D;margin-top:14px">Essential Cookies</h3>
+    <p>These are required for the website to function correctly. They enable core features such as security, session management, and accessibility. You cannot opt out of essential cookies as the site cannot function without them.</p>
+    <h3 style="color:#976A9D;margin-top:14px">Analytics Cookies</h3>
+    <p>We use analytics cookies (via Google Analytics) to understand how visitors interact with our site — including pages visited, time spent, and traffic sources. This data is aggregated and anonymous. It helps us improve content and performance.</p>
+    <h3 style="color:#976A9D;margin-top:14px">Marketing Cookies</h3>
+    <p>Marketing cookies track your browsing activity to deliver relevant advertising across platforms (Google Ads, Meta). These help us measure the effectiveness of our campaigns and ensure ads are shown to the right audiences.</p>
+    <h3>3. Third-Party Cookies</h3>
+    <p>Some cookies are placed by third-party services that appear on our pages, including:</p>
+    <ul>
+      <li>Google Analytics (analytics.google.com)</li>
+      <li>Google Ads (doubleclick.net)</li>
+      <li>Meta Pixel (facebook.com)</li>
+      <li>Cloudflare (cloudflare.com)</li>
+    </ul>
+    <p>These third parties have their own cookie policies and we encourage you to review them.</p>
+    <h3>4. How to Control Cookies</h3>
+    <p>You can control and manage cookies through your browser settings. Most browsers allow you to refuse cookies or delete existing ones. Note that disabling certain cookies may affect site functionality. You can also opt out of analytics tracking via <strong style="color:#DF9F76">Google's opt-out tools</strong>.</p>
+    <h3>5. Updates to This Policy</h3>
+    <p>We may update this Cookie Policy from time to time. Any changes will be reflected on this page with a revised date. Continued use of our website constitutes your acceptance of the updated policy.</p>
+  </div>
+</div>
+<script>
+function openModal(type) {
+  document.querySelectorAll('.modal-overlay').forEach(function(m) {
+    m.classList.remove('active');
+  });
+  var modal = document.getElementById('modal-' + type);
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeModal() {
+  document.querySelectorAll('.modal-overlay').forEach(function(m) {
+    m.classList.remove('active');
+  });
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
